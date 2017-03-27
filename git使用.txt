@@ -1,0 +1,104 @@
+进入要被用来当做仓库的文件夹 初始化仓库
+git init
+
+版本1
+把文件添加到仓库
+	git add filename
+把文件提交到仓库
+	git commet -m "submit information"
+
+版本2
+查看状态
+	git status	
+查看做过的修改	
+	git diff filename
+确认修改再执行
+	git add filename1
+	git add filename2
+	git add filename3
+	git commit -m "update 3 file"
+	一次可以添加多个文件，只提交一次
+
+
+git log			查看更改历史记录
+会打印作者信息和更改日期
+可以用 git log --pretty=oneline 简略输出
+会输出 commit id, submit information
+commit id 是一个SHA1计算出来的一个非常大的数字，每个人看到的都不同，以自己的为准
+
+git reset --hard HEAD^
+返回上一个版本
+HEAD表示当前版本
+一个^代表上一个版本
+两个代表上上个版本
+……
+也可以使用往上num个版本 HEAD~num
+
+此时git log已经看不到最后一次修改了
+若想回到下一个版本只能通过 git reset --hard commit-id(没必要写全，写前几位即可)
+
+如果忘了 commit-id可以通过git reflog查看你的每一次命令, 并显示commit id的前几位
+
+git diff HEAD -- filename 		比较当前的版本的内容和实际文件中内容的区别
+
+git checkout -- filename 		把文件在工具区的修改全部撤销
+ 一种是文件修改后还没有被放到暂存区,现在,撤销修改就回到和版本库一模一样的状态;
+ 另一种是文件已经添加到暂存区后, 作了修改,现在,撤销修改就回到添加到暂存 区后的状态。
+总之,就是让这个 件回到最近 次git commit或git add时的状态。
+
+总结
+场景1:当你改乱了工作区某个文件的内容,想直接丢弃工作区的修改时,用命令git
+checkout -- file。
+
+场景2:当你不但改乱了工作区某个文件的内容,还添加到了暂存区时,想丢弃修改,分两
+步,第1步用命令git reset HEAD file,就回到了场景1,第二步按场景1操作。
+
+场景3:已经提交了不合适的修改到版本库时,想要撤销本次提交,参考版本回退 节,不 过前提是没有推送到远程库
+
+版本库中删除文件后有两个选择
+	1.彻底删除	git rm file
+		git commit -m "remove file"
+	2.回复到最新版本
+		git checkout -- file
+
+命令git rm file用于删除一个文件。如果一个文件已经被提交到版本库,那么你永远不用担心误
+删,但是要小心,你只能恢复文件到最新版本,你会丢失最近一次提交后你修改的内容。
+
+
+
+推送到远程仓库github
+	1.关联远程仓库和本地仓库
+	git remote add origin git@github.com:username/learngit.git
+	2.把本地库的所有内容推送到远程库上
+	git push -u origin master（第一次需要带上 -u）
+
+
+分支创建
+	首先,我们创建dev分支,然后切换到dev分支:
+	$ git checkout -b dev
+	Switched to a new branch 'dev'
+	git checkout命令加上-b参数表示创建并切换,相当于以下两条命令:
+	$ git branch dev
+	$ git checkout dev					分支切换
+	Switched to branch 'dev'
+	然后, git branch命令查看当前分支:
+	$ git branch
+	* dev
+	master
+
+分支合并
+	$ git checkout master
+	$ git merge dev
+
+删除分支
+	$ git branch -d dev
+
+分支总结
+	查看分支:git branch 
+	创建分支:git branch name
+	切换分支:git checkout name
+	创建+切换分支:git checkout -b name
+	合并某分支到当前分支:git merge name 
+	删除分支:git branch -d name
+
+
